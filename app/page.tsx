@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
@@ -82,11 +83,12 @@ export default function Home() {
         <Checkbox id="acronymnOrNot" />
       <label
         htmlFor="acronymnOrNot"
-        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+        className="text-sm pl-3 xl:pl-0 font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
         Acronyms?
       </label>
       </div>
+      <Button className='font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-white/80 w-full' > Differentiate 🚀 </Button>
 
       </div>
 </main>
