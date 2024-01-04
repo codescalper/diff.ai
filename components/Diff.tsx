@@ -11,7 +11,7 @@ const Diff = () => {
    const  [topic2, setTopic2] = useState('');
    const [numberOfDiff, setNumberOfDiff] = useState(0);
 
-  console.log(acronymn);
+  console.log(topic1)
   return (
     <div>
           <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
