@@ -84,6 +84,10 @@ html, body {
   }
 }
 
+.text-glow {
+  color: cyan;
+  text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 30px cyan;
+}
 
 
 @layer base {
