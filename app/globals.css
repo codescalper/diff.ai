@@ -65,7 +65,27 @@
     --ring: 0 0% 83.1%;
   }
 }
- 
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.animate-fade-in{
+  animation: fade-in 2s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 100;
+  }
+}
+
+
+
 @layer base {
   * {
     @apply border-border;
