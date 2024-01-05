@@ -3,26 +3,29 @@ import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Input } from "@/components/ui/input"
 import Image from "next/image"
-import { useState } from "react"
+import { useEffect, useRef, useState } from "react";
 import { toast as sonner } from "sonner"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
-import { useChat } from "ai/react"
+import { useChat } from "ai/react";
 
 const Diff = () => {
-  
+
    const [acronymn, setAcronymn] = useState<boolean>(false);
    const [topic1, setTopic1] = useState<String>('');
    const  [topic2, setTopic2] = useState<String>('');
    const [numberOfDiff, setNumberOfDiff] = useState<number>(0);
    const { toast } = useToast()
-   const { messages,  handleSubmit, isLoading } =
+   const { messages, input,handleInputChange, handleSubmit, isLoading } =
    useChat({
      body: {
       topic1,
       topic2,
       numberOfDiff,
+      acronymn
      },
+
+     
   
      onError: (err:any) => {
       toast({
@@ -34,12 +37,54 @@ const Diff = () => {
      },
    });
 
-   const onSubmit = (e: any) => {
-    e.preventDefault();
 
+   const onSubmit = (e: any) => {
+    console.log("submitting")
+    e.preventDefault();
     handleSubmit(e);
   };
   console.log(topic1)
+  const lastMessage = messages[messages.length - 1];
+  console.log(lastMessage)
+
+  const generatedThread =
+  lastMessage?.role === "assistant" ? lastMessage.content : null;
+
+  const splittedArray = [];
+  // Initialize the current index to 0
+  let currentIndex = 0;
+
+  useEffect(() => {
+    setTopic1(input);
+  }, [input]);
+
+  // Loop from 1 to num
+  if (generatedThread) {
+    const splitArray = generatedThread.split("Here is the acronym");
+    // Use the first part of the split array
+    const firstPart = splitArray[0];
+    // Update the currentIndex to the length of the first part
+    currentIndex = firstPart.length;
+  
+    // Push the first part to the array
+    splittedArray.push(firstPart);
+  
+    // Loop through the remaining parts
+    for (let i = 1; i < splitArray.length; i++) {
+      // Push the remaining parts to the array
+      splittedArray.push("Here is the acronym" + splitArray[i]);
+    }
+  }
+
+  
+  const bioRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBios = () => {
+    if (bioRef.current !== null) {
+      bioRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <div>
           <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
@@ -50,7 +95,7 @@ const Diff = () => {
     <p className="text-xl text-slate-300 mt-5">
       An AI-powered tool to analyze and differentiate topics effortlessly.
     </p>
-
+    <form>
     <div className="max-w-xl w-full mt-10">
       <div className="flex items-center space-x-3">
         <Image
@@ -67,7 +112,8 @@ const Diff = () => {
       <div draggable='false' className="flex flex-col xl:flex-row items-center space-x-0 xl:space-x-3 mt-3">
         <Input
           type="text"
-          onChange={(e)=>setTopic1(e.target.value)}
+          value={input}
+          onChange={handleInputChange}
           placeholder="Rust"
           className="w-full rounded-md shadow-sm focus:border-cyan-500 focus:shadow-sm focus:shadow-cyan-500 focus:ring-cyan-200 p-2"
         />
@@ -118,7 +164,7 @@ const Diff = () => {
       </div>
 
       <div className="flex items-center space-x-0 xl:space-x-3 mt-5">
-        <Checkbox id="acronymnOrNot" onCheckedChange={()=>setAcronymn(!acronymn)} />
+      <Checkbox id="acronymnOrNot" onCheckedChange={() => setAcronymn(!acronymn)} />
       <label
         htmlFor="acronymnOrNot"
         className="text-sm pl-3 xl:pl-0 font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -126,7 +172,7 @@ const Diff = () => {
         Acronyms?
       </label>
       </div>
-      {!isLoading &&<Button onClick={onSubmit} className='font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-white/80 w-full' > Differentiate 🚀 </Button>}
+      {!isLoading && <Button onClick={onSubmit} className='font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-white/80 w-full' > Differentiate 🚀 </Button>}
       {isLoading && (
           <Button disabled className='font-medium px-4 py-2 sm:mt-10 mt-8 hover:bg-white/80 w-full'>
               <svg aria-hidden="true" role="status" className="inline w-4 h-4 me-3 text-zinc-40" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -137,7 +183,43 @@ const Diff = () => {
           </Button>
             )}
       </div>
+      </form>
+      <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
 </main>
+
+<output className="space-y-10 my-10">
+        {generatedThread && (
+          <>
+            <div>
+              <h2
+                className="xl:text-4xl text-3xl text-center font-bold mx-auto"
+          
+              >
+                Your generated <span className="text-gradient"> Threads</span>{" "}
+                🧵
+              </h2>
+            </div>
+
+            <div className="space-y-8 xl:p-5 p-10 flex flex-col items-center justify-center max-w-xl mx-auto">
+              {splittedArray.map((generatedBio, index) => (
+                <div
+                  className="bg-white dark:bg-black/75 rounded-xl shadow-md shadow-orange-400 p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-copy border"
+                  // onClick={() => {
+                  //   navigator.clipboard.writeText(generatedBio);
+                  //   // Assuming you have a library like react-toastify for toasts
+                  //   toast("Thread copied to clipboard", {
+                  //     icon: "🧵",
+                  //   });
+                  // }}
+                  key={index} // Use index as the key instead of generatedBio
+                >
+                  <p>{generatedBio}</p>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
+      </output>
     </div>
   )
 }
