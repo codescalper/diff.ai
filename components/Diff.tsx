@@ -73,11 +73,11 @@ const Diff = () => {
     }
   }
 
-  const bioRef = useRef<null | HTMLDivElement>(null);
+  const diffReff = useRef<null | HTMLDivElement>(null);
 
-  const scrollToBios = () => {
-    if (bioRef.current !== null) {
-      bioRef.current.scrollIntoView({ behavior: "smooth" });
+  const scrollToDiff = () => {
+    if (diffReff.current !== null) {
+      diffReff.current.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -217,25 +217,34 @@ OrNot"
         <output className="space-y-10 my-10 mt-10 ">
         {generatedThread && (
           <>
+         
             <div>
-              <h2 className="xl:text-4xl text-3xl text-center font-bold mx-auto">
+              <h2  ref={diffReff} className="xl:text-4xl text-3xl text-center font-bold mx-auto">
                 Here&rsquo;s Your <span className="text-gradient">Markdown</span>{" "}
                 Table
               </h2>
             </div>
-
+            {scrollToDiff()} 
             <div className="space-y-8 xl:p-5 p-10 flex flex-col items-center justify-center max-w-xl mx-auto">
-              {splittedArray.map((generatedBio, index) => (
+              {splittedArray.map((generatedDiff, index) => (
                 <div
                   className="bg-white dark:bg-black/75 rounded-xl box-glow  border-cyan-500 p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-copy border"
-                  // onClick={() => {
-                  //   navigator.clipboard.writeText(generatedBio);
-                  //   // Assuming you have a library like react-toastify for toasts
-                  //   toast("Thread copied to clipboard", {
-                  //     icon: "🧵",
-                  //   });
-                  // }}
-                  key={index} // Use index as the key instead of generatedBio
+                  onClick={() => {
+                    console.log("Copying to clipboard...");
+                    navigator.clipboard.writeText(generatedDiff);
+                    sonner("Copied", {
+                      description: "Copied to your clipboard ",
+                      icon: "📋",
+                      action: {
+                        label: "Close",
+                        onClick() {
+                          console.log('ok');
+                        },
+                      },
+                    });
+                  }}
+                  
+                  key={index} 
                 >
                   <style>
                     {`
@@ -256,7 +265,7 @@ OrNot"
                   <p>
                     {" "}
                     <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                      {generatedBio}
+                      {generatedDiff}
                     </ReactMarkdown>
                   </p>
                 </div>
