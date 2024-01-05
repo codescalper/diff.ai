@@ -214,9 +214,7 @@ OrNot"
           </div>
         </form>
         <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
-      </main>
-
-      <output className="space-y-10 my-10 mt-5 xl:mt-8">
+        <output className="space-y-10 my-10 mt-10 ">
         {generatedThread && (
           <>
             <div>
@@ -267,6 +265,9 @@ OrNot"
           </>
         )}
       </output>
+      </main>
+
+     
     </div>
   );
 };
