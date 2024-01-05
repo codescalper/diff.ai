@@ -39,13 +39,22 @@ const Diff = () => {
     console.log("submitting");
     e.preventDefault();
     handleSubmit(e);
+   
   };
+
+
+
   console.log(topic1);
   const lastMessage = messages[messages.length - 1];
   console.log(lastMessage);
 
   const generatedThread =
     lastMessage?.role === "assistant" ? lastMessage.content : null;
+
+    
+  useEffect(() => {
+    scrollToDiff();
+  }, [generatedThread]);
 
   const splittedArray = [];
   // Initialize the current index to 0
@@ -224,7 +233,7 @@ OrNot"
                 Table
               </h2>
             </div>
-            {scrollToDiff()} 
+          
             <div className="space-y-8 xl:p-5 p-10 flex flex-col items-center justify-center max-w-xl mx-auto">
               {splittedArray.map((generatedDiff, index) => (
                 <div
