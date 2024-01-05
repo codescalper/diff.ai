@@ -48,13 +48,13 @@ const Diff = () => {
   const lastMessage = messages[messages.length - 1];
   console.log(lastMessage);
 
-  const generatedThread =
+  const generatedResp =
     lastMessage?.role === "assistant" ? lastMessage.content : null;
 
     
   useEffect(() => {
     scrollToDiff();
-  }, [generatedThread]);
+  }, [generatedResp]);
 
   const splittedArray = [];
   // Initialize the current index to 0
@@ -65,8 +65,8 @@ const Diff = () => {
   }, [input]);
 
   // Loop from 1 to num
-  if (generatedThread) {
-    const splitArray = generatedThread.split("Here is the acronym");
+  if (generatedResp) {
+    const splitArray = generatedResp.split("Here is the acronym");
     // Use the first part of the split array
     const firstPart = splitArray[0];
     // Update the currentIndex to the length of the first part
@@ -151,9 +151,12 @@ const Diff = () => {
             <div className="flex items-center space-x-0 xl:space-x-3 mt-3">
               <Input
                 type="number"
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setNumberOfDiff(parseInt(e.target.value))
-                }
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  const value = parseInt(e.target.value);
+                  if (!isNaN(value) && value >= 1 && value <= 10) {
+                    setNumberOfDiff(value);
+                  }
+                }}
                 placeholder="8"
                 className="w-full xl:w-1/2 rounded-md shadow-sm focus:border-cyan-500 focus:shadow-sm focus:shadow-cyan-500 focus:ring-cyan-200 p-2"
               />
@@ -224,7 +227,7 @@ OrNot"
         </form>
         <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
         <output className="space-y-10 my-10 mt-10 ">
-        {generatedThread && (
+        {generatedResp && (
           <>
          
             <div>
