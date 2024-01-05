@@ -1,6 +1,6 @@
 <p align="center">
 <a href=https://github.com/codescalper/diff.ai target="_blank">
-<img src='/image.png' width="100%" alt="Banner" />
+<img src='public/image.png' width="100%" alt="Banner" />
 </a>
 </p>
 
