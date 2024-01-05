@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from './ui/button';
-
+import { FaGithub } from "react-icons/fa";
 
 export default function Header() {
   return (
@@ -11,10 +11,11 @@ export default function Header() {
         </h1>
       </Link>
       <a
-        href="#"
+        href="https://github.com/codescalper/diff.ai"
+        target='blank'
         rel="noopener noreferrer"
       >
-        <Button>Differentiate</Button>
+        <Button className='text-center gap-2 text-sm xl:text-md'>Star on Github<FaGithub /> </Button>
       </a>
     </header>
   );
