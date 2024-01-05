@@ -155,6 +155,14 @@ const Diff = () => {
                   const value = parseInt(e.target.value);
                   if (!isNaN(value) && value >= 1 && value <= 10) {
                     setNumberOfDiff(value);
+                  } else {
+                    // Show an error message
+                    toast({
+                      variant: "destructive",
+                      title: "Invalid Input",
+                      description: "Please enter a number between 1 and 10.",
+                      action: <ToastAction altText="OK">Try again</ToastAction>,
+                    });
                   }
                 }}
                 placeholder="8"
