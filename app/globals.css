@@ -84,11 +84,45 @@ html, body {
   }
 }
 
+.text-gradient {
+  background: linear-gradient(
+    60deg,
+    #5dade2,
+    #3498db,
+    #2bdfe5,
+    #00ddff,
+    #066bae,
+    #0088ff,
+    #4444ad,
+    #2813e8b2
+    );
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 300% 300%;
+  animation: animationGradient 3s ease alternate infinite;
+}
+
+@keyframes animationGradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 50% 100%;
+  }
+  100% {
+    background-position: 100% 0%;
+  }
+}
+
 .text-glow {
   color: cyan;
   text-shadow: 0 0 10px cyan, 0 0 20px cyan, 0 0 30px cyan;
 }
 
+.box-glow {
+  box-shadow: 0 0 5px cyan ; 
+}
 
 @layer base {
   * {

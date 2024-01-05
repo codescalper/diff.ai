@@ -8,10 +8,13 @@ import { toast as sonner } from "sonner"
 import { useToast } from "@/components/ui/use-toast"
 import { ToastAction } from "@/components/ui/toast"
 import { useChat } from "ai/react";
-
+import ReactMarkdown from "react-markdown";
+import remarkGfm from 'remark-gfm'
 const Diff = () => {
 
-   const [acronymn, setAcronymn] = useState<boolean>(false);
+   const [acronym
+, setacronym
+] = useState<boolean>(false);
    const [topic1, setTopic1] = useState<String>('');
    const  [topic2, setTopic2] = useState<String>('');
    const [numberOfDiff, setNumberOfDiff] = useState<number>(0);
@@ -22,7 +25,8 @@ const Diff = () => {
       topic1,
       topic2,
       numberOfDiff,
-      acronymn
+      acronym
+
      },
 
      
@@ -89,7 +93,7 @@ const Diff = () => {
     <div>
           <main className="flex flex-1 w-full flex-col items-center justify-center text-center px-4">
     <h1 className="sm:text-6xl text-4xl max-w-[708px] font-bold">
-      Discover Differences with diff.ai
+      Discover <span className="text-gradient ">Differences{" "}</span> with diff.ai
     </h1>
 
     <p className="text-xl text-slate-300 mt-5">
@@ -164,9 +168,13 @@ const Diff = () => {
       </div>
 
       <div className="flex items-center space-x-0 xl:space-x-3 mt-5">
-      <Checkbox id="acronymnOrNot" onCheckedChange={() => setAcronymn(!acronymn)} />
+      <Checkbox id="acronym
+OrNot" onCheckedChange={() => setacronym
+(!acronym
+)} />
       <label
-        htmlFor="acronymnOrNot"
+        htmlFor="acronym
+OrNot"
         className="text-sm pl-3 xl:pl-0 font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
       >
         Acronyms?
@@ -187,7 +195,7 @@ const Diff = () => {
       <hr className="h-px bg-gray-700 border-1 dark:bg-gray-700" />
 </main>
 
-<output className="space-y-10 my-10">
+<output className="space-y-10 my-10 mt-5 xl:mt-8">
         {generatedThread && (
           <>
             <div>
@@ -195,15 +203,15 @@ const Diff = () => {
                 className="xl:text-4xl text-3xl text-center font-bold mx-auto"
           
               >
-                Your generated <span className="text-gradient"> Threads</span>{" "}
-                🧵
+                 Here's Your <span className="text-gradient">Markdown</span>{" "}
+                 Table
               </h2>
             </div>
 
             <div className="space-y-8 xl:p-5 p-10 flex flex-col items-center justify-center max-w-xl mx-auto">
               {splittedArray.map((generatedBio, index) => (
                 <div
-                  className="bg-white dark:bg-black/75 rounded-xl shadow-md shadow-orange-400 p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-copy border"
+                  className="bg-white dark:bg-black/75 rounded-xl box-glow  border-cyan-500 p-4 hover:bg-gray-100 dark:hover:bg-gray-800 transition cursor-copy border"
                   // onClick={() => {
                   //   navigator.clipboard.writeText(generatedBio);
                   //   // Assuming you have a library like react-toastify for toasts
@@ -213,7 +221,23 @@ const Diff = () => {
                   // }}
                   key={index} // Use index as the key instead of generatedBio
                 >
-                  <p>{generatedBio}</p>
+                   <style>
+                  {`
+                    table {
+                      border-collapse: collapse;
+                      width: 100%;
+                      border: 2px solid rgba(52, 235, 204,0.4); 
+                      
+                    }
+                    th, td {
+                      border: 1px solid rgba(52, 235, 204,0.4); 
+                      border-radius: 5px;
+                      padding: 8px;
+                      text-align: left;
+                    }
+                  `}
+                </style>
+                  <p> <ReactMarkdown remarkPlugins={[remarkGfm]}>{generatedBio}</ReactMarkdown></p>
                 </div>
               ))}
             </div>
